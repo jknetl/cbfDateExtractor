@@ -1,22 +1,21 @@
 package cz.cbf.date.extractor;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 /**
  * Entity object representing match.
- * 
+ *
  * @author jknetl
  *
  */
 public class Match {
-	
+
 	private String homeTeam;
 	private String guestTeam;
-	
+
 	private String Address;
-	private LocalDate date;
-	private LocalTime time;
+	private LocalDateTime date;
+
 	public String getHomeTeam() {
 		return homeTeam;
 	}
@@ -35,19 +34,18 @@ public class Match {
 	public void setAddress(String address) {
 		Address = address;
 	}
-	public LocalDate getDate() {
+
+	public LocalDateTime getDate() {
 		return date;
 	}
-	public void setDate(LocalDate date) {
+
+	public void setDate(LocalDateTime date) {
 		this.date = date;
 	}
-	public LocalTime getTime() {
-		return time;
-	}
-	public void setTime(LocalTime time) {
-		this.time = time;
-	}
-	
-	
 
+	@Override
+	public String toString() {
+		return "Match [homeTeam=" + homeTeam + ", guestTeam=" + guestTeam + ", Address=" + Address + ", date=" + date
+				+ "]";
+	}
 }
