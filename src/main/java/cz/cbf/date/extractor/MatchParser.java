@@ -11,7 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,11 +45,21 @@ public class MatchParser implements CbfRosterConstants {
 				m.setGuestTeam(cols.get(GUEST_TEAM_COLUMN).text());
 
 				//parse date
-				String date = cols.get(DATE_COLUMN).text();
-				if (date != null && !date.isEmpty()) {
-					DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
-					m.setDate(LocalDateTime.parse(date, dateFormatter));
+				String dateTime = cols.get(DATE_COLUMN).text();
+				if (dateTime != null && !dateTime.isEmpty()) {
+					String date = dateTime.substring(0, 10);
+
+					DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
+					m.setDate(LocalDate.parse(date, dateFormatter));
+
+					if (dateTime.length() > TIME_OFSET) {
+						String time = dateTime.substring(11);
+						DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+						m.setTime(LocalTime.parse(time, timeFormatter));
+					}
 				}
+
 
 				//parse address
 				Element details = cols.get(DETAILS_COLUMN);

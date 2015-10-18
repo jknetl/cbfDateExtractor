@@ -18,4 +18,10 @@ public interface CbfRosterConstants {
 	 * link to address.
 	 */
 	public static final String ADDRESS_SELECTOR = "div > p > a";
+
+	/**
+	 * Represents index in the date time string where the time starts.
+	 */
+	public static final int TIME_OFSET = 11;
+
 }

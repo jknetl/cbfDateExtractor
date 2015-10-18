@@ -66,13 +66,14 @@ public class Main {
 			}
 
 			if (cmd.hasOption(teamFilerOption.getOpt())) {
-				matches = filterByTeam(matches, teamFilerOption.getValue());
+				matches = filterByTeam(matches, cmd.getOptionValue(teamFilerOption.getOpt()));
 			}
 
 			MatchConverter converter = new MatchConverter();
 			ICalendar calendar = converter.createCalendar(matches);
 
-			String outputFile = (cmd.hasOption(outputOption.getOpt())) ? outputOption.getValue() : DEFAULT_OUTPUT_FILE;
+			String outputFile = (cmd.hasOption(outputOption.getOpt())) ? cmd.getOptionValue(outputOption.getOpt())
+					: DEFAULT_OUTPUT_FILE;
 
 			File file = new File(outputFile);
 			Biweekly.write(calendar).go(file);
@@ -81,7 +82,6 @@ public class Main {
 			HelpFormatter formatter = new HelpFormatter();
 			formatter.printHelp("match-parser.jar", options);
 		}
-
 
 	}
 
@@ -93,15 +93,17 @@ public class Main {
 	 */
 	public static List<Match> filterByTeam(List<Match> matches, String team) {
 		List<Match> output = new ArrayList<>();
-		for (Match m : matches){
+		for (Match m : matches) {
 			if (m.getGuestTeam().toLowerCase().contains(team.toLowerCase()) ||
 					m.getHomeTeam().toLowerCase().contains(team.toLowerCase())) {
 				output.add(m);
 			}
 		}
 
-		if (output.isEmpty() && !matches.isEmpty()){
+		if (output.isEmpty() && !matches.isEmpty()) {
 			logger.warn("None of them matches is played by the team {}. Try another team name", team);
+		} else {
+			logger.debug("{} matches parsed for the team {}.", output.size(), team);
 		}
 
 		return output;
